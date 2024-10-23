@@ -3,10 +3,12 @@
 namespace App\Http\Middleware;
 
 use Closure;
+//use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class User
+class Adminmiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,6 +17,11 @@ class User
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (!Auth::check() || Auth::user()->usertype !== 'admin') {
+            // Redirect to login if not authenticated or not an admin
+            return redirect()->route('login')->with('error', 'Unauthorized access');
+        }
+  return $next($request);
+       
     }
 }
