@@ -81,7 +81,7 @@ class UserController extends Controller
   
           // Redirect based on user type
           if ($user->usertype === 'customer') {
-              return redirect('/contact');
+              return redirect('/');
           } else if ($user->usertype === 'admin') {
               return redirect('admindash');
           }
@@ -107,11 +107,11 @@ class UserController extends Controller
   
           session()->flush();  // Clear all session data
           
-          return redirect('/about');  // Redirect after logout
+          return redirect('/login');  // Redirect after logout
       }
   
       // If the user is not logged in, just redirect
-      return redirect('/about');
+      return redirect('/login');
   }
     
   //  function audit()

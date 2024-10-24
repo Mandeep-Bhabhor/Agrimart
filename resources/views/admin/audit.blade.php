@@ -13,7 +13,7 @@
 <body>
     <div class="container">
         <h1>Audit Logs</h1>
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">Audit ID</th>
@@ -38,8 +38,12 @@
             </tbody>
         </table>
     </div>
-    <li class="nav-item">
-        <a class="nav-link active" href="/logout">Logout</a>
-      </li>
+   
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-primary" href="/logout">Logout</a>
+    </div>
+    
+
+     
 </body>
 </html>

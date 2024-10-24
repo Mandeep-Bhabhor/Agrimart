@@ -8,7 +8,8 @@
     </div>
     @endif
     @csrf
-   
+    <div class="container mt-5">
+        <h1 class="text-center">Welcome to the Login page</h1>
 
     <div class="mb-3">
         <label for="email" class="form-label">email</label>

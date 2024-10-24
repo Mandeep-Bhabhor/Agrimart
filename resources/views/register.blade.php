@@ -3,6 +3,8 @@
     <div class="mx-auto">
 <form action="adduser" method="POST">
     @csrf
+    <div class="container mt-5">
+        <h1 class="text-center">Register</h1>
     <div class="mb-3">
         <label for="username" class="form-label">Username</label>
         <input type="text" class="form-control" id="username" placeholder="Enter username" name="username"/>
