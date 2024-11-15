@@ -124,7 +124,7 @@ class UserController extends Controller
   //   }
     
 
-    function admindash(Request $data) {
+    function admindash() {
       return view('admin.admindashboard');
   }
   
@@ -133,5 +133,10 @@ class UserController extends Controller
       return view('admin.audit', ['audit' => $audit]);
   }
   
+
+  function sh() {
+    $audit = DB::table('audit')->get(); // Fetch audit logs
+    return response()->json(['data' => $audit]); // Return JSON response
+}
 
 }

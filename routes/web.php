@@ -24,4 +24,7 @@ Route::get('/logout', [UserController::class, 'ulogout'])->name('logout');
 Route::middleware(['auth', Adminmiddleware::class])->group(function () {
     Route::get('admindash', [UserController::class, 'admindash'])->name('admindashboard');
     Route::get('/audit', [UserController::class, 'audit']);
+    Route::get('/admindash', [UserController::class, 'admindash'])->name('back');
+    Route::get('/sh', [UserController::class, 'sh']);
+
 });
