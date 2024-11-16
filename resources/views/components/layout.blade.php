@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Agrimart</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  
 
-<link rel="shortcut icon" href="{{ asset('../../../public/favicon-32x32.png') }}">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
   <style>
     /* Custom styles to make the form centered */
@@ -69,8 +71,8 @@
   <!-- Main Section -->
   <main class="d-flex justify-content-center align-items-center">
     <div class="container">
-      <!-- Centered Form goes here -->
-      {{$slot}}
+      <!-- Dynamic Content -->
+      {{ $slot }}
     </div>
   </main>
 
@@ -82,7 +84,7 @@
     </div>
   </footer>
 
-  <!-- Optional Bootstrap JavaScript -->
+  <!-- Bootstrap JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
