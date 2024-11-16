@@ -79,10 +79,10 @@
                 if (req.readyState == 4 && req.status == 200) {
                     var obj = JSON.parse(req.responseText);
 
-                    // Clear table
+                    
                     t_data.innerHTML = "";
 
-                    // Populate rows
+                 
                     obj.data.forEach(function (item) {
                         t_data.innerHTML += `
                             <tr>
@@ -95,7 +95,7 @@
                             </tr>`;
                     });
 
-                    // Show the table
+                   
                     document.getElementById('auditContainer').style.display = 'block';
                 }
             };

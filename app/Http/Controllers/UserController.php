@@ -129,14 +129,14 @@ class UserController extends Controller
   }
   
   function audit() {
-      $audit = DB::table('audit')->get(); // Fetch audit logs
+      $audit = DB::table('audit')->get(); 
       return view('admin.audit', ['audit' => $audit]);
   }
   
 
   function sh() {
-    $audit = DB::table('audit')->get(); // Fetch audit logs
-    return response()->json(['data' => $audit]); // Return JSON response
+    $audit = DB::table('audit')->get();
+    return response()->json(['data' => $audit]); 
 }
 
 }
