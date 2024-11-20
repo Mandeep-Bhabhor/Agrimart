@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\Adminmiddleware;
@@ -8,6 +9,8 @@ use App\Http\Middleware\Adminmiddleware;
 Route::get('/', function () {
     return view('home');
 })->name('home');
+
+
 
 // Public Routes
 Route::get('/about', [UserController::class, 'about'])->name('about');
@@ -28,3 +31,18 @@ Route::middleware(['auth', Adminmiddleware::class])->group(function () {
     Route::get('/sh', [UserController::class, 'sh']);
 
 });
+
+
+
+// product routes
+Route::middleware(['auth', Adminmiddleware::class])->group(function () {
+
+Route::get('/createproducts', [ProductController::class, 'showform']);
+Route::post('/createproducts', [ProductController::class, 'store']);
+Route::get('/adminproducts', [ProductController::class, 'adminproduct']);
+Route::get('{id}/editproducts', [ProductController::class, 'edit']);
+Route::put('admin/{id}/adminproducts', [ProductController::class, 'update']);
+
+});
+Route::get('/products', [ProductController::class, 'index']);
+
