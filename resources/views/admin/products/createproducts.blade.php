@@ -1,11 +1,9 @@
 <x-adminlayout>
-    <div class="mx-auto">
+    
+  
+
         <form action="/createproducts" method="POST" enctype="multipart/form-data">
-            @if(session()->has('success'))
-            <div>
-                <p>{{ session()->get("success") }}</p>
-            </div>
-            @endif
+           
             @csrf
             <div class="container mt-5">
                 <h1 class="text-center">Create the product</h1>
@@ -36,7 +34,7 @@
         <br>
         
             <div class="d-grid">
-                <button type="submit" class="btn btn-primary" name="submit">Login</button>
+                <button type="submit" class="btn btn-primary" name="submit">Create</button>
             </div>
         </form>
             </div>

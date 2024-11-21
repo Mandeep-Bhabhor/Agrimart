@@ -37,7 +37,7 @@
                             @endif
                         </td>
                         <td><a href = "{{url($product->id.'/editproducts')}}" class="btn btn-success mx-2">Edit</a></td>
-                        <td><a href = "{{url('products')}}" class="btn btn-danger mx-2">Delete</a></td>
+                        <td><a href = "{{url($product->id.'/deleteproducts')}}" class="btn btn-danger mx-2">Delete</a></td>
 
                     </tr>
                     @endforeach
