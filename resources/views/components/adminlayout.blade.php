@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +35,17 @@
             </div>
         </div>
     </nav>
+    <div class="container mt-5">
+        @if(session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif<div class="mx-auto">
+            @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('status') }}
+    </div>
+@endif
         <!-- Audit Logs Table -->
         <div id="auditContainer" class="mt-4" style="display: none;">
             <h2 class="text-center">Audit Logs</h2>

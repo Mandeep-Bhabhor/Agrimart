@@ -1,6 +1,6 @@
 <x-adminlayout>
     <div class="mx-auto">
-        <form action="{{url('admin/'.$products->id.'/adminproducts')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{url($products->id.'/adminproducts')}}" method="POST" enctype="multipart/form-data">
             @if(session()->has('success'))
             <div>
                 <p>{{ session()->get("success") }}</p>
