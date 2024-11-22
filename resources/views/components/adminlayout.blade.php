@@ -31,6 +31,12 @@
                     <li class="nav-item">
                         <a href="/createproducts" class="btn btn-secondary nav-link">Add Product</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="/admincategories" class="btn btn-secondary nav-link">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/addcategory" class="btn btn-secondary nav-link">Add Category</a>
+                    </li>
                 </ul>
             </div>
         </div>

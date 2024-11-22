@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\Adminmiddleware;
@@ -47,3 +48,15 @@ Route::get('{id}/deleteproducts', [ProductController::class, 'delete']);
 });
 Route::get('/products', [ProductController::class, 'index']);
 
+
+
+//category routes 
+
+Route::middleware(['auth', Adminmiddleware::class])->group(function ()
+{
+
+    Route::get('/admincategories', [CategoryController::class, 'viewcat']);
+    Route::get('/addcategory', [CategoryController::class, 'showform']);
+
+
+});
