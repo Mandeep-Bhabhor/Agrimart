@@ -15,6 +15,7 @@ class CategoryController extends Controller
 
      public function showform()
      {
+      $categories = Category::all();
          return view('admin.products.addcategory');
      }
      
@@ -33,7 +34,7 @@ class CategoryController extends Controller
     
             $filename = time().'.'.$extension;
     
-            $path = 'uploads/products/';
+            $path = 'uploads/categories/';
             $file->move($path,$filename);
         }
     
@@ -43,7 +44,7 @@ class CategoryController extends Controller
             'image'  => $path.$filename
         ]);
     
-        return redirect('/createproducts')->with('status','product created');
+        return redirect('/createproducts')->with('status','category created');
       }
     
      

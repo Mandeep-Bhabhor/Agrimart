@@ -16,6 +16,7 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Stock</th>
+                    <th>Category Name</th>
                     <th>Image</th>
                 </tr>
             </thead>
@@ -26,6 +27,7 @@
                     <td>{{ $product->name }}</td>
                     <td>${{ number_format($product->price, 2) }}</td>
                     <td>{{ $product->stock }}</td>
+                    <td>{{ $product->category->name ?? 'No Category' }}</td>
                     <td>
                         @if($product->image)
                             <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="img-thumbnail" style="width: 100px; height: 100px;">

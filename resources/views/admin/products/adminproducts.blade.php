@@ -16,6 +16,7 @@
                         <th>Name</th>
                         <th>Price</th>
                         <th>Stock</th>
+                        <th>Category Name</th>
                         <th>Image</th>
                         <th>edit</th>
                         <th>delete</th>
@@ -29,6 +30,7 @@
                         <td>{{ $product->name }}</td>
                         <td>${{ number_format($product->price, 2) }}</td>
                         <td>{{ $product->stock }}</td>
+                        <td>{{ $product->category->name ?? 'No Category' }}</td>
                         <td>
                             @if($product->image)
                                 <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="img-thumbnail" style="width: 100px; height: 100px;">
@@ -36,6 +38,7 @@
                                 <span class="text-muted">No image</span>
                             @endif
                         </td>
+                        
                         <td><a href = "{{url($product->id.'/editproducts')}}" class="btn btn-success mx-2">Edit</a></td>
                         <td><a href = "{{url($product->id.'/deleteproducts')}}" class="btn btn-danger mx-2">Delete</a></td>
 

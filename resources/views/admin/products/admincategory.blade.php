@@ -28,7 +28,7 @@
                         <td>{{ $category->name }}</td>
                         <td>${{ number_format($category->items) }}</td>
                         <td>
-                            @if($product->image)
+                            @if($category->image)
                                 <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" class="img-thumbnail" style="width: 100px; height: 100px;">
                             @else
                                 <span class="text-muted">No image</span>

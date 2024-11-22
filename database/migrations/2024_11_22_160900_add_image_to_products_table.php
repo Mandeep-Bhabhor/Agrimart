@@ -15,6 +15,7 @@ return new class extends Migration
             $table->after('stock', function($table)
             {
               $table->string('image')->nullable();
+              $table->foreignId('categories_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
 
             });
         });
