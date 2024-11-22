@@ -32,11 +32,14 @@
                         <td>{{ $product->stock }}</td>
                         <td>{{ $product->category->name ?? 'No Category' }}</td>
                         <td>
-                            @if($product->image)
-                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}" class="img-thumbnail" style="width: 100px; height: 100px;">
-                            @else
-                                <span class="text-muted">No image</span>
-                            @endif
+                            @if($product->image && file_exists(public_path($product->image)))
+                            <img src="{{ asset($product->image) }}" 
+                                 alt="{{ $product->name }}" 
+                                 class="img-thumbnail" 
+                                 style="width: 100px; height: 100px;">
+                        @else
+                            <span class="text-muted">No image</span>
+                        @endif
                         </td>
                         
                         <td><a href = "{{url($product->id.'/editproducts')}}" class="btn btn-success mx-2">Edit</a></td>

@@ -28,14 +28,17 @@
                         <td>{{ $category->name }}</td>
                       
                         <td>
-                            @if($category->image)
-                            <img src="{{ asset('storage/categories/' . $category->image) }}" alt="{{ $category->name }}" class="img-thumbnail" style="max-width: 200px;">
+                            @if($category->image && file_exists(public_path($category->image)))
+                            <img src="{{ asset($category->image) }}" 
+                                 alt="{{ $category->name }}" 
+                                 class="img-thumbnail" 
+                                 style="width: 100px; height: 100px;">
                         @else
-                                <span class="text-muted">No image</span>
-                            @endif
+                            <span class="text-muted">No image</span>
+                        @endif
                         </td>
-                        <td><a href = "{{url($category->id.'/editproducts')}}" class="btn btn-success mx-2">Edit</a></td>
-                        <td><a href = "{{url($category->id.'/deleteproducts')}}" class="btn btn-danger mx-2">Delete</a></td>
+                        <td><a href = "{{url($category->id.'/editcategory')}}" class="btn btn-success mx-2">Edit</a></td>
+                        <td><a href = "{{url($category->id.'/deletecategory')}}" class="btn btn-danger mx-2">Delete</a></td>
 
                     </tr>
                     @endforeach
