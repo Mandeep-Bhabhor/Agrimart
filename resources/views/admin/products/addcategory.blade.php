@@ -2,7 +2,7 @@
     
   
 
-    <form action="/createproducts" method="POST" enctype="multipart/form-data">
+    <form action="/addcategory" method="POST" enctype="multipart/form-data">
        
         @csrf
         <div class="container mt-5">

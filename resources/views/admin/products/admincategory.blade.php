@@ -14,7 +14,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
-                        <th>Items</th>
+                       
                         <th>Image</th>
                         <th>edit</th>
                         <th>delete</th>
@@ -26,11 +26,11 @@
                     <tr>
                         <td>{{ $category->id }}</td>
                         <td>{{ $category->name }}</td>
-                        <td>${{ number_format($category->items) }}</td>
+                      
                         <td>
                             @if($category->image)
-                                <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" class="img-thumbnail" style="width: 100px; height: 100px;">
-                            @else
+                            <img src="{{ asset('storage/categories/' . $category->image) }}" alt="{{ $category->name }}" class="img-thumbnail" style="max-width: 200px;">
+                        @else
                                 <span class="text-muted">No image</span>
                             @endif
                         </td>

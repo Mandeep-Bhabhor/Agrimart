@@ -40,23 +40,22 @@ class ProductController extends Controller
         ]);
         
         // Initialize the image path
-        $imagePath = null;
+        if($request->has('image')){
 
-        // Check if an image is uploaded
-        if ($request->hasFile('image')) {
             $file = $request->file('image');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-
-            // Use Laravel Storage to handle the file upload
-            $imagePath = $file->storeAs('public/products', $filename); // Store file in 'public/products' directory
+            $extension = $file->getClientOriginalExtension();
+    
+            $filename = time().'.'.$extension;
+    
+            $path = 'uploads/products/';
+            $file->move($path,$filename);
         }
-
         // Insert product into the database
         Product::create([
             'name' => $request->name,
             'price' => $request->price,
             'stock' => $request->stock,
-            'image' => $imagePath, // Save the image path
+            'image' => $path,$filename, // Save the image path
             'categories_id' => $request->categories_id,
         ]);
 
@@ -91,22 +90,17 @@ class ProductController extends Controller
         $imagePath = $products->image; // Default to the current image
     
         // Check if a new image is uploaded
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-    
-            $path = 'uploads/products/';
-            $file->move($path, $filename);
-    
-            // Delete the old image if it exists
-            if (File::exists($products->image)) {
-                File::delete($products->image);
-            }
-    
-            // Update the image path
-            $imagePath = $path . $filename;
-        }
+     
+    if($request->has('image')){
+
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+
+        $filename = time().'.'.$extension;
+
+        $path = 'uploads/products/';
+        $file->move($path,$filename);
+    }
     
         // Update the product details
         $products->update([

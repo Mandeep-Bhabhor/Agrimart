@@ -55,8 +55,10 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::middleware(['auth', Adminmiddleware::class])->group(function ()
 {
 
-    Route::get('/admincategories', [CategoryController::class, 'viewcat']);
+    Route::get('/admincategory', [CategoryController::class, 'viewcat']);
     Route::get('/addcategory', [CategoryController::class, 'showform']);
+    Route::post('/addcategory', [CategoryController::class, 'store']);
+
 
 
 });
