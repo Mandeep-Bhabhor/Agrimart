@@ -71,8 +71,8 @@ class UserController extends Controller
   
           // Insert login time into the Audit table
           $loginTime = now()->toTimeString();
-          DB::table('Audit')->insert([
-              'id' => $user->id,
+          DB::table('Audits')->insert([
+             
               'usertype' => $user->usertype,
               'logindate' => now()->toDateString(),
               'logintime' => $loginTime,
@@ -97,8 +97,8 @@ class UserController extends Controller
           $user = Auth::user(); // Get the authenticated user
           
           // Update logout time in the Audit table
-          DB::table('Audit')
-              ->where('id', $user->id)
+          DB::table('Audits')
+             
               ->whereNull('logouttime') // Update the last log entry
               ->update(['logouttime' => now()->toTimeString()]);
   
@@ -129,13 +129,13 @@ class UserController extends Controller
   }
   
   function audit() {
-      $audit = DB::table('audit')->get(); 
+      $audit = DB::table('audits')->get(); 
       return view('admin.audit', ['audit' => $audit]);
   }
   
 
   function sh() {
-    $audit = DB::table('audit')->get();
+    $audit = DB::table('audits')->get();
     return response()->json(['data' => $audit]); 
 }
 

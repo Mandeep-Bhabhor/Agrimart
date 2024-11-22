@@ -6,27 +6,26 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Symfony\Contracts\Service\Attribute\Required;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    
     public function index()
     {
-        $products = Product::all();  // Fetch all products
-        return view('products', compact('products'));  // Pass products to the home view
+        $products = Product::all(); // Fetch all products
+        return view('products', compact('products')); // Pass products to the home view
     }
   
     public function adminproduct()
     {
-        $products = Product::with('category')->get();
+        $products = Product::with('category')->get(); // Fetch products with their categories
         return view('admin.products.adminproducts', compact('products'));
     }
   
     public function showform()
     {
-         $categories = Category::all();
-        return view('admin.products.createproducts',compact('categories'));
+        $categories = Category::all(); // Fetch all categories for dropdown
+        return view('admin.products.createproducts', compact('categories'));
     }
 
     public function store(Request $request)
@@ -34,16 +33,64 @@ class ProductController extends Controller
         // Validate the request data
         $request->validate([
             'name' => 'required|max:255|string',
-            'price' => 'required|numeric|min:0', // Price should not be negative
-            'stock' => 'required|integer|min:0', // Stock should not be negative
-            'category' => 'required|exists:categories,id', // Ensure the category exists
-            'image' => 'required|mimes:png,jpg,jpeg,webp|max:2048', // Validate image file
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'categories_id' => 'required|exists:categories,id', // Validate category ID exists
+            'image' => 'nullable|mimes:png,jpg,jpeg,webp', // Validate image file
         ]);
-    
+        
         // Initialize the image path
         $imagePath = null;
-    
+
         // Check if an image is uploaded
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+
+            // Use Laravel Storage to handle the file upload
+            $imagePath = $file->storeAs('public/products', $filename); // Store file in 'public/products' directory
+        }
+
+        // Insert product into the database
+        Product::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'image' => $imagePath, // Save the image path
+            'categories_id' => $request->categories_id,
+        ]);
+
+        // Redirect back with a success message
+        return redirect('/adminproducts')->with('status', 'Product created successfully');
+    }
+
+
+  
+    public function edit(int $id)
+    {
+      $products = Product::findorfail($id);
+      echo($products);
+      return view('admin.products.editproducts', data: compact('products'));  
+  
+    }
+     
+    public function update(Request $request, int $id)
+    {
+        // Validate inputs
+        $request->validate([
+            'name' => 'required|min:3|max:255|string',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+            'image' => 'nullable|mimes:png,jpg,jpeg,webp' // Image is optional
+        ]);
+    
+        // Find the product or fail
+        $products = Product::findOrFail($id);
+    
+        // Initialize the image path variable
+        $imagePath = $products->image; // Default to the current image
+    
+        // Check if a new image is uploaded
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
@@ -52,23 +99,34 @@ class ProductController extends Controller
             $path = 'uploads/products/';
             $file->move($path, $filename);
     
+            // Delete the old image if it exists
+            if (File::exists($products->image)) {
+                File::delete($products->image);
+            }
+    
+            // Update the image path
             $imagePath = $path . $filename;
         }
     
-        // Debugging Step: Verify Request Data
-        dd($request->all(), $imagePath);
-    
-        // Insert product into the database
-        Product::create([
+        // Update the product details
+        $products->update([
             'name' => $request->name,
             'price' => $request->price,
             'stock' => $request->stock,
-            'categories_id' => $request->category, // Save category ID
-            'image' => $imagePath, // Save uploaded image path
+            'image' => $imagePath // Use the updated image path or retain the current one
         ]);
     
-        // Redirect back with a success message
-        return redirect('/createproducts')->with('status', 'Product created successfully');
+        return redirect('adminproducts')->with('status', 'Product updated successfully!');
     }
     
+  
+     public function delete(int $id)
+      {
+          $products = Product::findOrFail($id);
+          $products->delete();
+  
+          //return redirect()->back()->with('status',value: 'product deleted');
+          return redirect()->back()->with('status', 'Product deleted');
+  
+        }
 }

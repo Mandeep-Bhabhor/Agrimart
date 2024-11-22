@@ -43,6 +43,7 @@
                                 </option>
                             @endforeach
                         </select>
+                        
                         <span style="color: red">@error('categories_id'){{ $message }}@enderror</span>
                     </div>
 
@@ -50,6 +51,7 @@
                     <div class="mb-3">
                         <label for="image" class="form-label">Product Image</label>
                         <input type="file" class="form-control" id="image" name="image" />
+
                         <span style="color: red">@error('image'){{ $message }}@enderror</span>
                     </div>
 

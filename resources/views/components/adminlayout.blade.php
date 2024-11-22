@@ -89,7 +89,7 @@
                     obj.data.forEach(function (item) {
                         t_data.innerHTML += `
                             <tr>
-                                <td>${item.auditid}</td>
+                                <td>${item.id}</td>
                                 <td>${item.id}</td>
                                 <td>${item.usertype}</td>
                                 <td>${item.logindate}</td>
