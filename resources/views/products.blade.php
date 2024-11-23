@@ -18,6 +18,7 @@
                     <th>Stock</th>
                     <th>Category Name</th>
                     <th>Image</th>
+                    <th>Add To Cart</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +35,17 @@
                         @else
                             <span class="text-muted">No image</span>
                         @endif
+                    </td>
+                    <td>
+                    <form action="/order" method="POST">
+                        <input type="hidden" name="product_id" value="{{$product->id}}"/>
+                         <input type="hidden" name="product_name" value="{{$product->name}}"/>
+                        <input type="hidden" name="product_price" value="{{$product->price}}"/>
+                       
+
+                        @csrf
+                        <button class="btn btn-success">Add to orders</button>
+                    </form>
                     </td>
                 </tr>
                 @endforeach

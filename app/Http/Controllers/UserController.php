@@ -20,7 +20,15 @@ class UserController extends Controller
 
    function login()
    {
-    return view('login');
+    if(Auth::check()){
+        if(Auth::user()->usertype == 'admin'){
+            return redirect('adminproducts');
+        }
+        return redirect('products');
+    }
+    else{    
+        return view('login');
+        }
    }
 
    function about()

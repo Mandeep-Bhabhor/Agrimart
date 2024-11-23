@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -127,4 +129,32 @@ class ProductController extends Controller
           return redirect()->back()->with('status', 'Product deleted');
   
         }
+
+        public function order(Request $request)
+        {
+            // Check if the 'user' session key exists
+            if (Auth::check()) {
+                $user = Auth::user(); 
+                $productName = $request->input('product_name'); 
+               if ($user) {
+            $order = new Order;
+            $order->user_name = $user->name; // Use Auth data for user ID
+            $order->product_name = $productName;
+            $order->product_stock = '1'; 
+            $order->product_price = $request->product_price;// Hardcoded stock value, can be dynamic if needed
+            $order->order_status = 'pending'; // Default order status
+            $order->save();
+        
+                return response()->json(['message' => 'Order placed successfully!'], 200);
+                         }
+                              }
+             else{
+            return dd($request->session()->all());
+                 }
+            // Handle case when user session does not exist
+           
+
+            
+        }
+        
 }

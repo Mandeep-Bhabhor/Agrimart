@@ -75,7 +75,7 @@ class CategoryController extends Controller
           $extension = $file->getClientOriginalExtension();
           $filename = time() . '.' . $extension;
   
-          $path = 'uploads/products/';
+          $path = 'uploads/categories/';
           $file->move($path, $filename);
   
           // Delete the old image if it exists

@@ -47,6 +47,7 @@ Route::get('{id}/deleteproducts', [ProductController::class, 'delete']);
 
 });
 Route::get('/products', [ProductController::class, 'index']);
+Route::post('/order', [ProductController::class, 'order']);
 
 
 
