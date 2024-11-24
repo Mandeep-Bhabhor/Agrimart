@@ -49,6 +49,11 @@ Route::get('{id}/deleteproducts', [ProductController::class, 'delete']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::post('/order', [ProductController::class, 'order']);
 
+Route::get('/vieworder', [ProductController::class, 'vieworder']);
+Route::post('/vieworder/{product_name}/{id}', [ProductController::class, 'updateorder']);
+Route::post('{id}/placeOrder', [ProductController::class, 'placeorder']);
+//Route::post('{id}/place-order', [ProductController::class, 'placeOrder'])->name('placeOrder');
+Route::get('downloadBill/{user_name}', [ProductController::class, 'downloadBill'])->name('download.bill');
 
 
 //category routes 

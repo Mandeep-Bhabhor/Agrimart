@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 
 class ProductController extends Controller
 {
@@ -137,6 +138,16 @@ class ProductController extends Controller
                 $user = Auth::user(); 
                 $productName = $request->input('product_name'); 
                if ($user) {
+
+                $existingOrder = Order::where('user_name', $user->name)
+                ->where('product_name', $productName)
+                ->where('order_status', 'pending') // Assuming pending orders are considered "in the cart"
+                ->first();
+
+            if ($existingOrder) {
+                // If product is already in the cart, return with a message
+                return redirect('/vieworder')->with('error', 'Product is already in the cart!');
+            }
             $order = new Order;
             $order->user_name = $user->name; // Use Auth data for user ID
             $order->product_name = $productName;
@@ -145,16 +156,128 @@ class ProductController extends Controller
             $order->order_status = 'pending'; // Default order status
             $order->save();
         
-                return response()->json(['message' => 'Order placed successfully!'], 200);
+                return redirect('/vieworder');
                          }
                               }
              else{
-            return dd($request->session()->all());
+            return redirect('/login');
                  }
-            // Handle case when user session does not exist
-           
-
-            
+            // Handle case when user session does not exis   
         }
+
+
+        public function vieworder(){
+             if(Auth::check()){
+                $order = Order::where('user_name', Auth::user()->name)->get();  
+                  return view('order',compact('order'));
+             }
+             else{
+                return redirect('/login');
+                     }
+        }
+
+        public function updateorder(Request $request, string $product_name, int $id)
+        {
+            $order = Order::findOrFail($id);
+        
+            // Adjust the column name to match your schema
+            $product = Product::where('name', $product_name)->firstOrFail(); 
+        
+            // Retrieve the product price from the product model
+            $productPrice = $product->price; // Ensure this column exists in `products` table
+            $price = $productPrice * $request->updstock; // Multiply price by stock
+        
+            if ($request->updstock == 0) {
+                $order->delete(); // Delete order if stock is zero
+            } else {
+                $order->update([
+                    'product_price' => $price,
+                    'product_stock' => $request->updstock,
+                ]);
+            }
+        
+            return redirect('/vieworder')->with('status', 'Order updated successfully!');
+        }
+        
+
+        public function placeOrder(Request $request)
+        {
+            if (!Auth::check()) {
+                return redirect('/login')->with('error', 'Please log in to place an order.');
+            }
+        
+            // Fetch the logged-in user
+            $user = Auth::user();
+            
+            // Fetch all pending orders for the logged-in user
+            $orders = Order::where('user_name', $user->name)
+                           ->where('order_status', 'pending')
+                           ->get();
+        
+            if ($orders->isEmpty()) {
+                return redirect('/vieworder')->with('error', 'No pending orders found.');
+            }
+        
+            $totalPrice = 0;
+            foreach ($orders as $order) {
+                $totalPrice += $order->product_price;
+                $order->order_status = 'placed';
+                $order->save();
+            }
+        
+            return response()->json([
+                'message' => 'Order placed successfully!',
+                'user_name' => $user->name,
+                'total_price' => $totalPrice,
+            ]);
+        }
+        
+
+        public function downloadBill($user_name)
+{
+    // Fetch all orders for the given user
+    $orders = Order::where('user_name', $user_name)->get();
+
+    // Check if the user has any orders
+    if ($orders->isEmpty()) {
+        return redirect()->back()->with('error', 'No orders found for this user.');
+    }
+
+    // Initialize the bill content
+    $billContent = "Order Bill for $user_name\n";
+    $billContent .= "-----------------------------------\n";
+
+    // Initialize total sum
+    $totalSum = 0;
+
+    // Loop through all orders and append order details to the bill
+    foreach ($orders as $order) {
+       // $billContent .= "Order ID: {$order->id}\n";
+        $billContent .= "Product Name: {$order->product_name}\n";
+        $billContent .= "Quantity: {$order->product_stock}\n";
+        $billContent .= "Product total price: {$order->product_price}\n";
+      //  $totalPrice = $order->product_stock * $order->product_price;
+       // $billContent .= "Total Price: $totalPrice\n";
+        $billContent .= "-----------------------------------\n";
+
+        // Add to the total sum
+        $totalSum += $order->product_price;
+    }
+
+    // Add the total sum at the end
+    $billContent .= "Total Amount for All Orders: $totalSum\n";
+    $billContent .= "-----------------------------------\n";
+    $billContent .= "Thank you for your orders!";
+
+    // Set the file name and headers for downloading the text file
+    $fileName = "{$user_name}_OrderBill.txt";
+    $headers = [
+        'Content-Type' => 'text/plain',
+        'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+    ];
+
+    // Return the text file as a response, allowing the user to download it
+    return Response::make($billContent, 200, $headers);
+}
         
 }

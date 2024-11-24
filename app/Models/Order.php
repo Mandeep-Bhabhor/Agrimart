@@ -10,6 +10,14 @@ class order extends Model
     use HasFactory;
 
    protected $table ="order";
-
+   protected $fillable = [
+    'user_name',
+    'product_name',
+    'product_price',
+    'product_stock',
+    'order_status'
+      
+  
+  ];
 
 }
