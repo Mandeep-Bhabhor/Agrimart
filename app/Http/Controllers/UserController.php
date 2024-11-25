@@ -76,11 +76,12 @@ class UserController extends Controller
       if ($user) {
           // Use Laravel's Auth::login() to log the user in
           Auth::login($user);
-  
+        
+          $uid = Auth::id();
           // Insert login time into the Audit table
           $loginTime = now()->toTimeString();
           DB::table('Audits')->insert([
-             
+              'user_id' => $uid,
               'usertype' => $user->usertype,
               'logindate' => now()->toDateString(),
               'logintime' => $loginTime,

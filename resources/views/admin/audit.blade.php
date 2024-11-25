@@ -17,7 +17,7 @@
             <thead>
                 <tr>
                     <th scope="col">Audit ID</th>
-                    <th scope="col">User ID</th>
+                  
                     <th scope="col">User type</th>
                     <th scope="col">Login Date</th>
                     <th scope="col">Login Time</th>
@@ -29,7 +29,7 @@
    <script>
     var t_data = document.getElementById("table_data");
     var req = new XMLHttpRequest();
-
+  
 
     req.open("GET","/sh",true);
     req.send();
@@ -39,7 +39,7 @@
             var obj =JSON.parse(req.responseText)
 
             for(i=0;i<obj.data.length;i++){
-                t_data.innerHTML += "<tr><td>"+obj.data[i]['auditid']+"</td><td>"+obj.data[i]['id']+"</td><td>"+obj.data[i]['usertype']+"</td><td>"+obj.data[i]['logindate']+"</td><td>"+obj.data[i]['logintime']+"</td><td>"+obj.data[i]['logouttime']+"</td></tr>";
+                t_data.innerHTML += "<tr><td>"+obj.data[i]['auditid']+"</td><td>"+obj.data[i]['usertype']+"</td><td>"+obj.data[i]['logindate']+"</td><td>"+obj.data[i]['logintime']+"</td><td>"+obj.data[i]['logouttime']+"</td></tr>";
                // console.log(obj.data[i]['id']);
                 //console.log(obj.data[i]['usertype']);
 

@@ -12,6 +12,7 @@ class audit extends Model
     protected $table = "audit";
 
     protected $fillable = [
+      'user_id',
       'usertype',
       'logindate',
       'logintime',

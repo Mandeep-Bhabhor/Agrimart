@@ -156,7 +156,7 @@ class ProductController extends Controller
             $order->order_status = 'pending'; // Default order status
             $order->save();
         
-                return redirect('/vieworder');
+                return redirect('/vieworder')->with('status', 'Order added successfully!');;
                          }
                               }
              else{
@@ -178,26 +178,48 @@ class ProductController extends Controller
 
         public function updateorder(Request $request, string $product_name, int $id)
         {
+            // Fetch the order by ID
             $order = Order::findOrFail($id);
         
-            // Adjust the column name to match your schema
-            $product = Product::where('name', $product_name)->firstOrFail(); 
+            // Fetch the product by its name
+            $product = Product::where('name', $product_name)->firstOrFail();
         
-            // Retrieve the product price from the product model
-            $productPrice = $product->price; // Ensure this column exists in `products` table
-            $price = $productPrice * $request->updstock; // Multiply price by stock
+            // Retrieve the product's stock and price
+            $productStock = $product->stock; // Ensure 'stock' is a valid column in your `products` table
+            $productPrice = $product->price; // Ensure 'price' is a valid column in your `products` table
         
-            if ($request->updstock == 0) {
-                $order->delete(); // Delete order if stock is zero
-            } else {
-                $order->update([
-                    'product_price' => $price,
-                    'product_stock' => $request->updstock,
-                ]);
+            // Check if the requested updated stock is valid
+            $requestedStock = $request->updstock;
+        
+            // Validate stock input
+            if ($requestedStock < 0) {
+                return redirect('/vieworder')->with('error', 'Invalid stock quantity.');
             }
         
-            return redirect('/vieworder')->with('status', 'Order updated successfully!');
+            // Calculate the updated price
+            $price = $productPrice * $requestedStock;
+        
+            if ($requestedStock == 0) {
+                // Delete the order if the requested stock is 0
+                $order->delete();
+                return redirect('/vieworder')->with('status', 'Order deleted successfully!');
+            } else {
+                if ($productStock >= $requestedStock) {
+                    // Update the order if enough stock is available
+                    $order->update([
+                        'product_price' => $price,
+                        'product_stock' => $requestedStock,
+                    ]);
+        
+                    return redirect('/vieworder')->with('status', 'Order updated successfully!');
+
+                } else {
+                    // Insufficient stock
+                    return redirect('/vieworder')->with('error', 'Not enough stock available.');
+                }
+            }
         }
+        
         
 
         public function placeOrder(Request $request)
@@ -225,11 +247,7 @@ class ProductController extends Controller
                 $order->save();
             }
         
-            return response()->json([
-                'message' => 'Order placed successfully!',
-                'user_name' => $user->name,
-                'total_price' => $totalPrice,
-            ]);
+            return redirect('/vieworder')->with('status', 'Order placed successfully!');
         }
         
 

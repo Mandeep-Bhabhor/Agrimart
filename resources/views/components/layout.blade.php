@@ -6,8 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Agrimart</title>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Zephyr Theme CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.3/zephyr/bootstrap.min.css">
 
   <!-- Favicon -->
   <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
@@ -33,40 +33,40 @@
 <body>
   <!-- Header Section -->
   <header class="bg-primary text-white py-3">
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Agrimart</a>
+        <a class="navbar-brand fs-3" href="#">Agrimart</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
+              <a class="nav-link fs-4" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/products">Products</a>
+              <a class="nav-link fs-4" href="/products">Products</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/vieworder">Orders</a>
+              <a class="nav-link fs-4" href="/vieworder">Orders</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="/about">About</a>
+              <a class="nav-link fs-4" href="/about">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="/register">Register</a>
+              <a class="nav-link fs-4" href="/register">Register</a>
             </li>
             @if(Auth::check())
             <li class="nav-item">
-                <a class="nav-link active" href="/logout">Logout</a>
+              <a class="nav-link fs-4" href="/logout">Logout</a>
             </li>
             @else
             <li class="nav-item">
-              <a class="nav-link active" href="/login">Login</a>
+              <a class="nav-link fs-4" href="/login">Login</a>
             </li>
             @endif
             <li class="nav-item">
-              <a class="nav-link active" href="/contact">Contact</a>
+              <a class="nav-link fs-4" href="/contact">Contact</a>
             </li>
           </ul>
         </div>
@@ -75,7 +75,7 @@
   </header>
 
   <!-- Main Section -->
-  <main class="d-flex justify-content-center align-items-center">
+  <main class="d-flex justify-content-center align-items-center py-5">
     <div class="container">
       <!-- Dynamic Content -->
       {{ $slot }}
@@ -83,10 +83,10 @@
   </main>
 
   <!-- Footer -->
-  <footer class="text-center text-lg-start mt-auto">
-    <div class="text-center p-3">
-      © 2024 Copyright:
-      <a class="text-body" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+  <footer class="text-center text-lg-start mt-auto border-top py-3">
+    <div class="text-center">
+      © 2024 Agrimart. All rights reserved. Powered by 
+      <a class="text-body" href="https://mdbootstrap.com/">MDBootstrap</a>
     </div>
   </footer>
 
