@@ -8,6 +8,7 @@
 
   <!-- Zephyr Theme CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.3/zephyr/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
   <!-- Favicon -->
   <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
@@ -35,10 +36,22 @@
   <header class="bg-primary text-white py-3">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container-fluid">
-        <a class="navbar-brand fs-3" href="#">Agrimart</a>
+        <!-- Title and Profile Button -->
+        <div class="d-flex align-items-center">
+          <a class="navbar-brand fs-3" href="#">Agrimart</a>
+          @if(Auth::check())
+          <a href="/profile" class="btn btn-info btn-sm d-flex align-items-center ms-3 p-2" style="border-radius: 20px;">
+            <i class="bi bi-person-circle me-2 fs-5"></i> <!-- Bootstrap Icon -->
+            <span>{{ Auth::user()->name }}</span>
+          </a>
+          @endif
+        </div>
+    
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+    
+        <!-- Navbar Links -->
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
@@ -72,6 +85,8 @@
         </div>
       </div>
     </nav>
+    
+    
   </header>
 
   <!-- Main Section -->

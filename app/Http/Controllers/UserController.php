@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Bus\UpdatedBatchJobCounts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\hash;
+
 class UserController extends Controller
 {
 
@@ -66,6 +68,83 @@ class UserController extends Controller
       return redirect('login')->with('success','Congratulations! Your Account created');
     }
     }
+
+
+     public function viewprofile()
+     {
+        if(Auth::check()){
+            $user = Auth::user();
+            return view('userprofile', data: compact('user'));
+         }
+         else{
+            return redirect('/login');
+                 }
+
+     }
+
+
+
+     public function vieweditprofile()
+     {
+        if(Auth::check()){
+            $user = Auth::user();
+          //  $user = User::findorfail($id);
+            return view('updateuser', data: compact('user'));
+         }
+         else{
+            return redirect('/login');
+                 } 
+     }
+
+
+
+     public function editprofile(Request $request,int $id)
+     {
+        if(Auth::check()){
+            $user = Auth::user();
+          
+           
+
+             // Validate inputs
+      $request->validate([
+        'name' => 'required|min:3|max:255|string',
+       
+       'email' => 'required|email',
+
+       'password' => 'required|min:3|max:255|string',
+    ]);
+
+    $userid = User::findorfail($id);
+          
+     if ($request->has('name') && $request->input('name') != $user->name) {
+        $user->name = $request->input('name');
+    }
+    
+    if ($request->has('email') && $request->input('email') != $user->email) {
+        $user->email = $request->input('email');
+    }
+
+    // Save the updated user
+   
+
+   $user->save();
+   return redirect('/profile')->with('status', 'your profile is successfully updated.');
+}
+         
+         else{
+            return redirect('/login');
+                 } 
+     }
+ 
+     public function deleteprofile(int $id)
+     {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        //return redirect()->back()->with('status',value: 'product deleted');
+        return redirect('/')->with('status', 'User deleted');
+     }
+      
 
     function ulogin(Request $data) {
       // Retrieve the user by email and plain text password

@@ -20,6 +20,12 @@ Route::view('register', 'register');
 Route::post('adduser', [UserController::class, 'adduser']);
 Route::get('login', [UserController::class, 'login'])->name('login');
 Route::post('ulogin', [UserController::class, 'ulogin']);
+Route::get('/profile', [UserController::class, 'viewprofile']);
+Route::get('/editprofile/{id}', [UserController::class, 'vieweditprofile']);
+Route::put('/editprofile/{id}', [UserController::class, 'editprofile']);
+
+Route::get('/deleteprofile/{id}', [UserController::class, 'deleteprofile']);
+
 
 // Logout Route
 Route::get('/logout', [UserController::class, 'ulogout'])->name('logout');
