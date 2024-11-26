@@ -230,7 +230,7 @@ class ProductController extends Controller
         
             // Fetch the logged-in user
             $user = Auth::user();
-            
+        
             // Fetch all pending orders for the logged-in user
             $orders = Order::where('user_name', $user->name)
                            ->where('order_status', 'pending')
@@ -241,16 +241,41 @@ class ProductController extends Controller
             }
         
             $totalPrice = 0;
+            $missingProducts = [];
+        
+            // Collect product names from orders for batch retrieval
+            $productNames = $orders->pluck('product_name')->unique();
+            $products = Product::whereIn('name', $productNames)->get()->keyBy('name');
+        
             foreach ($orders as $order) {
                 $totalPrice += $order->product_price;
                 $order->order_status = 'placed';
+        
+                // Update stock if the product exists
+                if ($products->has($order->product_name)) {
+                    $product = $products->get($order->product_name);
+                    $product->stock -= $order->product_stock;
+        
+                  
+                    $product->save();
+                } else {
+                    // Add missing product name to the list
+                    $missingProducts[] = $order->product_name;
+                }
+        
                 $order->save();
+            }
+        
+            // Generate a message if there are missing products
+            if (!empty($missingProducts)) {
+                $missingProductNames = implode(', ', $missingProducts);
+                return redirect('/vieworder')->with('error', "The following products could not be updated due to missing records: {$missingProductNames}");
             }
         
             return redirect('/vieworder')->with('status', 'Order placed successfully!');
         }
         
-
+        
         public function downloadBill($user_name)
 {
     // Fetch all orders for the given user

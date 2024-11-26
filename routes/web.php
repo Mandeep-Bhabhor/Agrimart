@@ -5,10 +5,12 @@ use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\Adminmiddleware;
+use App\Models\Product;
 
 // Home Route
 Route::get('/', function () {
-    return view('home');
+    $products = Product::all();
+    return view('home',compact('products'));
 })->name('home');
 
 
@@ -57,7 +59,7 @@ Route::post('/order', [ProductController::class, 'order']);
 
 Route::get('/vieworder', [ProductController::class, 'vieworder']);
 Route::post('/vieworder/{product_name}/{id}', [ProductController::class, 'updateorder']);
-Route::post('{id}/placeOrder', [ProductController::class, 'placeorder']);
+Route::post('{id}{product_name}/placeOrder', [ProductController::class, 'placeorder']);
 //Route::post('{id}/place-order', [ProductController::class, 'placeOrder'])->name('placeOrder');
 Route::get('downloadBill/{user_name}', [ProductController::class, 'downloadBill'])->name('download.bill');
 

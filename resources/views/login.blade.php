@@ -1,33 +1,42 @@
-
 <x-layout>
     <div class="mx-auto">
-<form action="ulogin" method="POST">
-    @if(session()->has('success'))
-    <div>
-        <p>{{ session()->get("success") }}</p>
-    </div>
-    @endif
-    @csrf
-    <div class="container mt-5">
-        <h1 class="text-center">Welcome to the Login page</h1>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow-lg">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h2 class="mb-0">Welcome to the Login Page</h2>
+                        </div>
+                        <div class="card-body p-4">
+                            <!-- Success Message -->
+                            @if(session()->has('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session()->get('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
 
-    <div class="mb-3">
-        <label for="email" class="form-label">email</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email"/>
-        <span style="color: red">@error('email'){{$message}}@enderror</span>
-    </div>
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Enter password" name="password"/>
-        <span style="color: red">@error('password'){{$message}}@enderror</span>
-    
-
-   
-
-
-    <div class="d-grid">
-        <button type="submit" class="btn btn-primary" name="submit">Login</button>
-    </div>
-</form>
+                            <!-- Login Form -->
+                            <form action="ulogin" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email" />
+                                    <small class="text-danger">@error('email'){{ $message }}@enderror</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" placeholder="Enter your password" name="password" />
+                                    <small class="text-danger">@error('password'){{ $message }}@enderror</small>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </x-layout>

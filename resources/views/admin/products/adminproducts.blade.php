@@ -1,6 +1,4 @@
 <x-adminlayout>
-   
-
     <div class="container mt-5">
         <h2 class="mb-4">Product List</h2>
         
@@ -9,48 +7,26 @@
                 No products available.
             </div>
         @else
-            <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Category Name</th>
-                        <th>Image</th>
-                        <th>edit</th>
-                        <th>delete</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($products as $product)
-                    <tr>
-                        <td>{{ $product->id }}</td>
-                        <td>{{ $product->name }}</td>
-                        <td>${{ number_format($product->price, 2) }}</td>
-                        <td>{{ $product->stock }}</td>
-                        <td>{{ $product->category->name ?? 'No Category' }}</td>
-                        <td>
-                            @if($product->image && file_exists(public_path($product->image)))
-                            <img src="{{ asset($product->image) }}" 
+            <div class="row">
+                @foreach($products as $product)
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{{ $product->image && file_exists(public_path($product->image)) ? asset($product->image) : '' }}" 
                                  alt="{{ $product->name }}" 
-                                 class="img-thumbnail" 
-                                 style="width: 100px; height: 100px;">
-                        @else
-                            <span class="text-muted">No image</span>
-                        @endif
-                        </td>
-                        
-                        <td><a href = "{{url($product->id.'/editproducts')}}" class="btn btn-success mx-2">Edit</a></td>
-                        <td><a href = "{{url($product->id.'/deleteproducts')}}" class="btn btn-danger mx-2">Delete</a></td>
-
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                 class="card-img-top" 
+                                 style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $product->name }}</h5>
+                                <p class="card-text">Price: ${{ number_format($product->price, 2) }}</p>
+                                <p class="card-text">Stock: {{ $product->stock }}</p>
+                                <p class="card-text">Category: {{ $product->category->name ?? 'No Category' }}</p>
+                                <a href="{{ url($product->id . '/editproducts') }}" class="btn btn-sm btn-success">Edit</a>
+                                <a href="{{ url($product->id . '/deleteproducts') }}" class="btn btn-sm btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         @endif
     </div>
-    
-    
-    </x-adminlayout>
+</x-adminlayout>

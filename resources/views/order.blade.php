@@ -1,38 +1,46 @@
 <x-layout>
     <!-- Success Message -->
     @if(session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>{{ session('status') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
     <!-- Error Message -->
     @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
     <div class="container mt-5">
-        <h2 class="mb-4">Order List</h2>
+        <h2 class="mb-4 text-primary text-center"><i class="bi bi-cart-check-fill me-2"></i>Order List</h2>
 
         <!-- Check if there are any orders -->
         @if($order->isEmpty())
-            <div class="alert alert-warning" role="alert">
-                No Orders available.
+            <div class="alert alert-warning text-center" role="alert">
+                <i class="bi bi-info-circle-fill me-2"></i>No Orders available.
             </div>
         @else
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 @foreach($order as $order)
                     <div class="col">
-                        <div class="card h-100">
+                        <div class="card h-100 shadow-sm">
                             <div class="card-body">
-                                <h5 class="card-title">Order ID: {{ $order->id }}</h5>
+                                <h5 class="card-title text-primary"><i class="bi bi-box-seam me-2"></i>Order ID: {{ $order->id }}</h5>
                                 <p class="card-text"><strong>User:</strong> {{ $order->user_name }}</p>
                                 <p class="card-text"><strong>Product:</strong> {{ $order->product_name }}</p>
                                 <p class="card-text"><strong>Price:</strong> ${{ $order->product_price }}</p>
-                                <p class="card-text"><strong>Status:</strong> {{ $order->order_status }}</p>
-                                
+                                <p class="card-text">
+                                    <strong>Status:</strong>
+                                    <span class="badge 
+                                        {{ $order->order_status == 'placed' ? 'bg-success' : 'bg-warning text-dark' }}">
+                                        {{ ucfirst($order->order_status) }}
+                                    </span>
+                                </p>
+
                                 <form action="{{ url('/vieworder'.'/'.$order->product_name.'/'.$order->id) }}" method="POST">
                                     @csrf
                                     <div class="input-group mb-3">
@@ -43,7 +51,7 @@
                                             onclick="updateStock(this, -1)" 
                                             data-min="0"
                                         >
-                                            −
+                                            <i class="bi bi-dash"></i>
                                         </button>
 
                                         <!-- Stock Input -->
@@ -62,7 +70,7 @@
                                             class="btn btn-outline-secondary" 
                                             onclick="updateStock(this, 1)"
                                         >
-                                            +
+                                            <i class="bi bi-plus"></i>
                                         </button>
                                     </div>
 
@@ -73,7 +81,7 @@
                                         class="btn btn-success w-100 mt-2" 
                                         @if($order->order_status == 'placed') disabled @endif
                                     >
-                                        Update
+                                        <i class="bi bi-pencil-square me-2"></i>Update
                                     </button>
                                 </form>
                             </div>
@@ -85,16 +93,20 @@
             <div class="row mt-4">
                 <div class="col-6">
                     <!-- Place Order Button -->
-                    <form action="{{ url($order->id.$order->user_name.'/placeOrder') }}" method="POST">
+                    <form action="{{ url($order->id.$order->user_name.$order->product_name.'/placeOrder') }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-primary w-100">Place Order</button>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-check-circle-fill me-2"></i>Place Order
+                        </button>
                     </form>
                 </div>
                 <div class="col-6">
                     <!-- Download Bill Button -->
                     <form action="{{ url('downloadBill/'. Auth::user()->name) }}" method="GET">
                         @csrf
-                        <button type="submit" class="btn btn-info w-100">Download Bill</button>
+                        <button type="submit" class="btn btn-info w-100">
+                            <i class="bi bi-file-earmark-arrow-down-fill me-2"></i>Download Bill
+                        </button>
                     </form>
                 </div>
             </div>
@@ -124,6 +136,19 @@
 
         input[type="number"].no-arrow {
             -moz-appearance: textfield;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            transition: 0.3s ease;
+        }
+
+        .btn {
+            transition: 0.3s ease;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
         }
     </style>
 </x-layout>

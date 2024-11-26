@@ -114,7 +114,7 @@ class UserController extends Controller
        'password' => 'required|min:3|max:255|string',
     ]);
 
-    $userid = User::findorfail($id);
+    $user = User::findorfail($id);
           
      if ($request->has('name') && $request->input('name') != $user->name) {
         $user->name = $request->input('name');

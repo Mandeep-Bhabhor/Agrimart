@@ -1,6 +1,4 @@
 <x-adminlayout>
-   
-
     <div class="container mt-5">
         <h2 class="mb-4">Category List</h2>
         
@@ -9,43 +7,34 @@
                 No categories available.
             </div>
         @else
-            <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                       
-                        <th>Image</th>
-                        <th>edit</th>
-                        <th>delete</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($categories as $category)
-                    <tr>
-                        <td>{{ $category->id }}</td>
-                        <td>{{ $category->name }}</td>
-                      
-                        <td>
-                            @if($category->image && file_exists(public_path($category->image)))
-                            <img src="{{ asset($category->image) }}" 
-                                 alt="{{ $category->name }}" 
-                                 class="img-thumbnail" 
-                                 style="width: 100px; height: 100px;">
-                        @else
-                            <span class="text-muted">No image</span>
-                        @endif
-                        </td>
-                        <td><a href = "{{url($category->id.'/editcategory')}}" class="btn btn-success mx-2">Edit</a></td>
-                        <td><a href = "{{url($category->id.'/deletecategory')}}" class="btn btn-danger mx-2">Delete</a></td>
-
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="row">
+                @foreach($categories as $category)
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm">
+                            <!-- Category Image -->
+                            <div class="card-header text-center">
+                                @if($category->image && file_exists(public_path($category->image)))
+                                    <img src="{{ asset($category->image) }}" 
+                                         alt="{{ $category->name }}" 
+                                         class="img-fluid" 
+                                         style="height: 200px; object-fit: cover;">
+                                @else
+                                    <span class="text-muted">No image</span>
+                                @endif
+                            </div>
+                            
+                            <!-- Category Name and Buttons -->
+                            <div class="card-body text-center">
+                                <h5 class="card-title">{{ $category->name }}</h5>
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ url($category->id . '/editcategory') }}" class="btn btn-success btn-sm">Edit</a>
+                                    <a href="{{ url($category->id . '/deletecategory') }}" class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         @endif
     </div>
-    
-    
-    </x-adminlayout>
+</x-adminlayout>

@@ -1,34 +1,27 @@
 <x-adminlayout>
-    
-  
-
     <form action="/addcategory" method="POST" enctype="multipart/form-data">
-       
         @csrf
         <div class="container mt-5">
-            <h1 class="text-center">Create the Category</h1>
-    
-        <div class="mb-3">
-            <label for="name" class="form-label">Category Name</label>
-            <input type="name" class="form-control" value="{{old('name')}}"  id="name" placeholder="Enter name" name="name"/>
-            <span style="color: red">@error('name'){{$message}}@enderror</span>
-        </div>
-      
-        <div class="mb-3">
-            <label for="image" class="form-label">Image</label>
-            <input type="file" class="form-control" value="{{old('image')}}" id="image" placeholder="Upload file" name="image"/>
-            <span style="color: red">@error('file'){{$message}}@enderror</span>
-        
-            {{-- <button type="submit" class="btn btn-primary" name="submit">Upload</button> --}}
+            <h1 class="text-center">Create a Category</h1>
 
-       
-    <br>
-    
-        <div class="d-grid">
-            <button type="submit" class="btn btn-primary" name="submit">Add</button>
+            <!-- Category Name Input -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Category Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Enter category name" required />
+                <span style="color: red">@error('name'){{$message}}@enderror</span>
+            </div>
+
+            <!-- Image Upload Input -->
+            <div class="mb-3">
+                <label for="image" class="form-label">Category Image</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*" required />
+                <span style="color: red">@error('image'){{$message}}@enderror</span>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Add Category</button>
+            </div>
         </div>
     </form>
-        </div>
-
-
 </x-adminlayout>
