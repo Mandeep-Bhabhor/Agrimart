@@ -37,6 +37,9 @@
                     <li class="nav-item">
                         <a href="/addcategory" class="btn btn-secondary nav-link">Add Category</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="/history" class="btn btn-secondary nav-link">Order History</a>
+                    </li>
                 </ul>
             </div>
         </div>

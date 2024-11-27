@@ -38,7 +38,8 @@ Route::middleware(['auth', Adminmiddleware::class])->group(function () {
     Route::get('/audit', [UserController::class, 'audit']);
     Route::get('/admindash', [UserController::class, 'admindash'])->name('back');
     Route::get('/sh', [UserController::class, 'sh']);
-
+    Route::get('/history', [ProductController::class, 'history']);
+    
 });
 
 

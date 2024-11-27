@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -264,6 +265,10 @@ class ProductController extends Controller
                 }
         
                 $order->save();
+
+                History::create([
+                    'order_id' => $order->id, // Use $order->id (single order instance)
+                ]);
             }
         
             // Generate a message if there are missing products
@@ -322,5 +327,13 @@ class ProductController extends Controller
     // Return the text file as a response, allowing the user to download it
     return Response::make($billContent, 200, $headers);
 }
-        
+          
+
+
+public function history()
+{
+     $history = History::all();
+      return view('admin.orderhistory',compact('history'));
+    
+}
 }
