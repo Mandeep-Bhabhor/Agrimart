@@ -16,12 +16,21 @@
     @endif
 
     <div class="container mt-5">
-        <h2 class="mb-4 text-primary text-center"><i class="bi bi-cart-check-fill me-2"></i>Order List</h2>
+        <h2 class="mb-4 text-primary text-center"><i class="bi bi-cart-check-fill me-2"></i>Your Cart</h2>
+      <!-- Place Order Button -->
+                      <!-- Place Order Button -->
+        <!-- Place Order Button -->
+<a 
+href="{{ url('/viewplacedorder') }}" 
+class="btn btn-primary w-100 mt-3 place-order-btn" class="btn btn-success w-100 mt-3 place-order-btn">
+<i class="bi bi-check-circle-fill me-2"></i>
+</a>
+
 
         <!-- Check if there are any orders -->
         @if($order->isEmpty())
             <div class="alert alert-warning text-center" role="alert">
-                <i class="bi bi-info-circle-fill me-2"></i>No Orders available.
+                <i class="bi bi-info-circle-fill me-2"></i>No Product available.
             </div>
         @else
             <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -32,7 +41,7 @@
                                 <h5 class="card-title text-primary"><i class="bi bi-box-seam me-2"></i>Order ID: {{ $order->id }}</h5>
                                 <p class="card-text"><strong>User:</strong> {{ $order->user_name }}</p>
                                 <p class="card-text"><strong>Product:</strong> {{ $order->product_name }}</p>
-                                <p class="card-text"><strong>Price:</strong> ${{ $order->product_price }}</p>
+                                <p class="card-text"><strong>Price:</strong> INR {{ $order->product_price }}</p>
                                 <p class="card-text">
                                     <strong>Status:</strong>
                                     <span class="badge 

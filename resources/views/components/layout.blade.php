@@ -111,7 +111,7 @@
               <a class="nav-link" href="/products">Products</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/vieworder">Orders</a>
+              <a class="nav-link" href="/vieworder">Cart</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/about">About</a>
@@ -152,8 +152,7 @@
   <!-- Footer -->
   <footer class="text-center text-lg-start mt-auto py-3">
     <div class="container-fluid py-2">
-      © 2024 Agrimart. All rights reserved. Powered by 
-      <a class="text-body" href="https://mdbootstrap.com/">MDBootstrap</a>
+      © 2024 Agrimart. All rights reserved
     </div>
   </footer>
 

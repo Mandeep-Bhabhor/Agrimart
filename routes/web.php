@@ -57,7 +57,7 @@ Route::get('{id}/deleteproducts', [ProductController::class, 'delete']);
 });
 Route::get('/products', [ProductController::class, 'index']);
 Route::post('/order', [ProductController::class, 'order']);
-
+Route::get('/viewplacedorder', [ProductController::class, 'viewplacedorder']);
 Route::get('/vieworder', [ProductController::class, 'vieworder']);
 Route::post('/vieworder/{product_name}/{id}', [ProductController::class, 'updateorder']);
 Route::post('{id}{product_name}/placeOrder', [ProductController::class, 'placeorder']);

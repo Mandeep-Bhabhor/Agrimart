@@ -168,10 +168,24 @@ class ProductController extends Controller
 
 
         public function vieworder(){
-             if(Auth::check()){
-                $order = Order::where('user_name', Auth::user()->name)->get();  
-                  return view('order',compact('order'));
-             }
+            if (Auth::check()) {
+                $order = Order::where('user_name', Auth::user()->name)
+                              ->where('order_status', 'pending') // Add condition for pending status
+                              ->get();
+                return view('order', compact('order'));
+            }
+             else{
+                return redirect('/login');
+                     }
+        }
+
+        public function viewplacedorder(){
+            if (Auth::check()) {
+                $order = Order::where('user_name', Auth::user()->name)
+                              ->where('order_status', 'placed') // Add condition for pending status
+                              ->get();
+                return view('placedorder', compact('order'));
+            }
              else{
                 return redirect('/login');
                      }

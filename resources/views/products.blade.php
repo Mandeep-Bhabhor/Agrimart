@@ -28,7 +28,7 @@
                                     <tr>
                                         <td class="text-center">{{ $product->id }}</td>
                                         <td>{{ $product->name }}</td>
-                                        <td class="text-center">${{ number_format($product->price, 2) }}</td>
+                                        <td class="text-center">INR {{ number_format($product->price, 2) }}</td>
                                         <td class="text-center">{{ $product->stock }}</td>
                                         <td>{{ $product->category->name ?? 'No Category' }}</td>
                                         <td class="text-center">
