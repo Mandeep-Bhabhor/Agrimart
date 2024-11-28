@@ -2,7 +2,7 @@
     <div class="container mt-5">
         <div class="card border-primary">
             <!-- Card Header -->
-            <div class="card-header bg-primary text-white text-center">
+            <div class="card-header bg-success text-white text-center">
                 <h4>Create Product</h4>
             </div>
 
@@ -57,7 +57,7 @@
 
                     <!-- Submit Button -->
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Create Product</button>
+                        <button type="submit" class="btn btn-outline-warning">Create Product</button>
                     </div>
                 </form>
             </div>

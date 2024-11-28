@@ -20,7 +20,7 @@
 
             <!-- Submit Button -->
             <div class="d-grid">
-                <button type="submit" class="btn btn-primary">Add Category</button>
+                <button type="submit" class="btn btn-success">Add Category</button>
             </div>
         </div>
     </form>

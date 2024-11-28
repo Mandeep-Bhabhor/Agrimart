@@ -23,7 +23,7 @@
 <a 
 href="{{ url('/viewplacedorder') }}" 
 class="btn btn-primary w-100 mt-3 place-order-btn" class="btn btn-success w-100 mt-3 place-order-btn">
-<i class="bi bi-check-circle-fill me-2"></i>
+<i class="bi bi-check-circle-fill me-2"></i>View Your Placed Orders
 </a>
 
 

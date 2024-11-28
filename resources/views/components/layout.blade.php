@@ -10,153 +10,157 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/5.3.3/zephyr/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
-  <!-- Favicon -->
   <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
   <style>
-    /* General Body Styling */
+    /* General Styling */
     body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e8f5e9, #aed581); /* Light green gradient */
+      color: #2e7d32;
+      margin: 0;
+      padding: 0;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      font-family: 'Poppins', sans-serif;
-      color: #333;
-      background: url('{{ asset('images/background.jpg') }}') no-repeat center center fixed; /* Background image */
-      background-size: cover;
     }
 
-    main {
-      flex: 1;
-      padding: 2rem;
-    }
-
-    /* Header Styling */
     header {
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background-color: #388e3c;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Navbar */
+    .navbar {
+      padding: 1rem 2rem;
     }
 
     .navbar-brand {
-      font-weight: 600;
-      font-size: 1.8rem;
+      font-size: 2rem;
+      font-weight: 700;
     }
 
     .navbar-nav .nav-link {
-      font-size: 1.2rem;
-      padding: 0.5rem 1rem;
-      transition: all 0.3s;
+      color: white;
+      font-size: 1rem;
+      padding: 0.8rem 1rem;
+      transition: background-color 0.3s ease;
     }
 
     .navbar-nav .nav-link:hover {
       background-color: rgba(255, 255, 255, 0.2);
-      border-radius: 5px;
+      border-radius: 6px;
     }
 
-    .btn-info {
-      background-color: #17a2b8;
-      color: white;
-      transition: all 0.3s ease-in-out;
+    .user-btn {
+      background-color: white;
+      color: #388e3c;
+      border-radius: 20px;
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      transition: transform 0.3s ease;
     }
 
-    .btn-info:hover {
-      background-color: #138496;
+    .user-btn:hover {
+      transform: scale(1.1);
     }
 
-    /* Footer Styling */
+    .dropdown-menu {
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .dropdown-item:hover {
+      background-color: #e8f5e9;
+      color: #388e3c;
+    }
+
+    /* Main Content */
+    main {
+      flex: 1;
+      padding: 8rem;
+      width: 1800px;
+      margin: 2rem auto;
+      /* //max-width: 1200px; */
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Footer */
     footer {
-      background-color: #343a40;
-      color: #ffffff;
+      background-color: #388e3c;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      margin-top: auto;
     }
 
     footer a {
-      color: #17a2b8;
+      color: #c8e6c9;
       text-decoration: none;
     }
 
     footer a:hover {
       text-decoration: underline;
-    }
-
-    footer div {
-      font-size: 0.9rem;
+      color: white;
     }
   </style>
 </head>
 <body>
-  <!-- Header Section -->
-  <header class="bg-primary text-white">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <!-- Header -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
-        <!-- Title and Profile Button -->
-        <div class="d-flex align-items-center">
-          <a class="navbar-brand" href="#">Agrimart</a>
-          @if(Auth::check())
-          <a href="/profile" class="btn btn-info btn-sm d-flex align-items-center ms-3 p-2" style="border-radius: 20px;">
-            <i class="bi bi-person-circle me-2 fs-5"></i>
-            <span>{{ Auth::user()->name }}</span>
-          </a>
-          @endif
-        </div>
-    
+        <a class="navbar-brand" href="#">Agrimart</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-    
-        <!-- Navbar Links -->
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/products">Products</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/vieworder">Cart</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/about">About</a>
-            </li>
-            @if(!Auth::check())
-            
-            <li class="nav-item">
-              <a class="nav-link" href="/register">Register</a>
-            </li>
-            @endif
-          
-
-            <li class="nav-item">
-              <a class="nav-link" href="/contact">Contact</a>
-            </li>
-            
-            @if(Auth::check())
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Logout</a>
-            </li>
-            @else
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-            @endif
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/products">Products</a></li>
+            <li class="nav-item"><a class="nav-link" href="/vieworder">Cart</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
           </ul>
+          <div class="dropdown ms-3">
+            @if(Auth::check())
+            <a class="btn-dark user-btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="/profile">Profile</a></li>
+              <li><a class="dropdown-item" href="/viewplacedorder">Orders</a></li>
+              <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
+            </ul>
+            @else
+            <a class="btn btn-light ms-3" href="/login">Login</a>
+            <a class="btn btn-outline-light ms-2" href="/register">Register</a>
+            @endif
+          </div>
         </div>
       </div>
     </nav>
   </header>
 
-  <!-- Main Section -->
-  <main class="py-5">
-    <!-- Dynamic Content -->
+  <!-- Main -->
+  <main>
     {{ $slot }}
   </main>
 
   <!-- Footer -->
-  <footer class="text-center text-lg-start mt-auto py-3">
-    <div class="container-fluid py-2">
-      © 2024 Agrimart. All rights reserved
-    </div>
+  <footer>
+    <p>&copy; 2024 Agrimart. All rights reserved.</p>
   </footer>
 
-  <!-- Bootstrap JavaScript -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
