@@ -84,10 +84,10 @@
     /* Main Content */
     main {
       flex: 1;
-      padding: 8rem;
-      width: 1800px;
+      padding: 2rem;
+      max-width: 1200px;  /* Ensure max width */
+      width: 100%;
       margin: 2rem auto;
-      /* //max-width: 1200px; */
       background-color: white;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -111,6 +111,32 @@
       text-decoration: underline;
       color: white;
     }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1rem;
+      }
+
+      .navbar-brand {
+        font-size: 1.5rem;
+      }
+
+      .navbar-nav .nav-link {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.8rem;
+      }
+
+      .user-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+      }
+
+      main {
+        padding: 1rem;
+        margin: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -130,7 +156,24 @@
             <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
             <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
           </ul>
-          <div class="dropdown ms-3">
+  
+          <!-- Search Bar -->
+          <form class="d-flex ms-auto me-3" action="/search" method="GET">
+            <input 
+              class="form-control me-2" 
+              type="search" 
+              name="query" 
+              placeholder="Search products..." 
+              aria-label="Search"
+              required
+            >
+            <button class="btn btn-light" type="submit">
+              <i class="bi bi-search"></i> Search
+            </button>
+          </form>
+  
+          <!-- User Menu -->
+          <div class="dropdown">
             @if(Auth::check())
             <a class="btn-dark user-btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
@@ -149,6 +192,7 @@
       </div>
     </nav>
   </header>
+  
 
   <!-- Main -->
   <main>

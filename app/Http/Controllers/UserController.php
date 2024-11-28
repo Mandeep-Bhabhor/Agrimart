@@ -54,27 +54,55 @@ class UserController extends Controller
   //  }
 
 
-    function adduser(Request $data){
-      $newuser=new User();
-      $newuser->name=$data->input('username');
-      $newuser->email=$data->input('email');
-      $newuser->password=$data->input('password');
-      $newuser->phone=$data->input('phone');
-      $newuser->address=$data->input('address');
-     // $data->file('file')->move('./uplods/profiles/');
-      $newuser->usertype="customer";
-     if($newuser->save())
-    {
-      return redirect('login')->with('success','Congratulations! Your Account created');
-    }
-    }
+
+
+  public function adduser(Request $data)
+  {
+      // Validate the incoming request data
+      $validated = $data->validate([
+          'username' => 'required|string|max:255',
+          'email'    => 'required|email|unique:users,email',
+          'password' => 'required|string|min:8',
+          'phone'    => 'required|numeric|digits_between:10,15',
+          'address'  => 'required|string|max:500',
+      ], [
+          // Optional: Custom error messages
+          'username.required' => 'Please provide a username.',
+          'email.required'    => 'The email address is required.',
+          'email.unique'      => 'This email is already registered.',
+          'phone.numeric'     => 'The phone number must be numeric.',
+          'phone.digits_between' => 'The phone number must be between 10 and 15 digits.',
+          'address.required'  => 'Please provide your address.',
+      ]);
+  
+      // Create a new user
+      $newuser = new User();
+      $newuser->name = $validated['username'];
+      $newuser->email = $validated['email'];
+      $newuser->password = $validated['password']; // Hash the password
+      $newuser->phone = $validated['phone'];
+      $newuser->address = $validated['address'];
+      $newuser->usertype = "customer";
+  
+      if ($newuser->save()) {
+          return redirect('login')->with('success', 'Congratulations! Your account has been created.');
+      }
+  
+      return redirect()->back()->with('error', 'Failed to create an account. Please try again.');
+  }
+  
 
 
      public function viewprofile()
      {
         if(Auth::check()){
             $user = Auth::user();
-            return view('userprofile', data: compact('user'));
+            if ($user->usertype === 'customer') {
+                return view('userprofile', data: compact('user'));
+            }
+           else{
+            return view('admin.adminprofile', data: compact('user'));
+           }
          }
          else{
             return redirect('/login');
@@ -88,6 +116,7 @@ class UserController extends Controller
      {
         if(Auth::check()){
             $user = Auth::user();
+            
           //  $user = User::findorfail($id);
             return view('updateuser', data: compact('user'));
          }
@@ -146,37 +175,52 @@ class UserController extends Controller
      }
       
 
-    function ulogin(Request $data) {
-      // Retrieve the user by email and plain text password
-      $user = User::where('email', $data->input('email'))
-                  ->where('password', $data->input('password')) // No hashing, direct comparison
-                  ->first();
-  
-      if ($user) {
-          // Use Laravel's Auth::login() to log the user in
-          Auth::login($user);
-        
-          $uid = Auth::id();
-          // Insert login time into the Audit table
-          $loginTime = now()->toTimeString();
-          DB::table('Audits')->insert([
-              'user_id' => $uid,
-              'usertype' => $user->usertype,
-              'logindate' => now()->toDateString(),
-              'logintime' => $loginTime,
-              'logouttime' => null
-          ]);
-  
-          // Redirect based on user type
-          if ($user->usertype === 'customer') {
-              return redirect('/');
-          } else if ($user->usertype === 'admin') {
-              return redirect('admindash');
-          }
-      } else {
-          return redirect('login')->with('error', 'The provided credentials are incorrect.');
-      }
-  }
+   
+     public function ulogin(Request $data)
+     {
+         // Validate the input
+         $data->validate([
+             'email'    => 'required|email',
+             'password' => 'required|string|min:8',
+         ], [
+             'email.required'    => 'The email field is required.',
+             'email.email'       => 'Please provide a valid email address.',
+             'password.required' => 'The password field is required.',
+             'password.min'      => 'The password must be at least 8 characters.',
+         ]);
+     
+         // Attempt to retrieve the user with plain-text password (insecure, but matches your scenario)
+         $user = User::where('email', $data->input('email'))
+                     ->where('password', $data->input('password')) // Direct comparison (not hashed)
+                     ->first();
+     
+         if ($user) {
+             // Log the user in using Laravel's Auth facade
+             Auth::login($user);
+     
+             $uid = Auth::id();
+     
+             // Insert login details into the Audit table
+             DB::table('Audits')->insert([
+                 'user_id'    => $uid,
+                 'usertype'   => $user->usertype,
+                 'logindate'  => now()->toDateString(),
+                 'logintime'  => now()->toTimeString(),
+                 'logouttime' => null
+             ]);
+     
+             // Redirect based on user type
+             if ($user->usertype === 'customer') {
+                 return redirect('/');
+             } else if ($user->usertype === 'admin') {
+                 return redirect('admindash');
+             }
+         } else {
+             // Redirect back with an error message
+             return redirect('login')->with('error', 'The provided credentials are incorrect.');
+         }
+     }
+     
 
   function ulogout()
   {
@@ -214,7 +258,9 @@ class UserController extends Controller
     
 
     function admindash() {
-      return view('admin.admindashboard');
+        $user = User::where('usertype','customer')->get();
+        $userCount = $user->count(); 
+      return view('admin.admindashboard',compact('user','userCount'));
   }
   
   function audit() {

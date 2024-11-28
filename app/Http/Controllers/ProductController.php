@@ -350,4 +350,12 @@ public function history()
       return view('admin.orderhistory',compact('history'));
     
 }
+
+public function search(Request $request)
+{
+    $query = $request->input('query');
+    $products = Product::where('name', 'LIKE', '%' . $query . '%')->get();
+
+    return view('search', compact('products', 'query'));
+}
 }

@@ -27,7 +27,7 @@
                                 <h5 class="card-title">{{ $product->name }}</h5>
                                 <p class="card-text text-muted">{{ $product->category->name ?? 'Uncategorized' }}</p>
                                 <p class="card-text">
-                                    <strong>${{ number_format($product->price, 2) }}</strong>
+                                    <strong>INR {{ number_format($product->price, 2) }}</strong>
                                     <span class="text-muted">Stock: {{ $product->stock }}</span>
                                 </p>
                             </div>

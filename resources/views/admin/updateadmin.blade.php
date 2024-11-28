@@ -1,4 +1,4 @@
-<x-layout>
+<x-adminlayout>
     <div class="container mt-5">
         <!-- Card Container -->
         <div class="card shadow mx-auto" style="max-width: 500px;">
@@ -92,4 +92,4 @@
             border-color: #084298;
         }
     </style>
-</x-layout>
+</x-adminlayout>

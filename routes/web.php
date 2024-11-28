@@ -25,6 +25,7 @@ Route::post('ulogin', [UserController::class, 'ulogin']);
 Route::get('/profile', [UserController::class, 'viewprofile']);
 Route::get('/editprofile/{id}', [UserController::class, 'vieweditprofile']);
 Route::put('/editprofile/{id}', [UserController::class, 'editprofile']);
+Route::get('/search', [ProductController::class, 'search'])->name('search');
 
 Route::get('/deleteprofile/{id}', [UserController::class, 'deleteprofile']);
 
@@ -39,6 +40,7 @@ Route::middleware(['auth', Adminmiddleware::class])->group(function () {
     Route::get('/admindash', [UserController::class, 'admindash'])->name('back');
     Route::get('/sh', [UserController::class, 'sh']);
     Route::get('/history', [ProductController::class, 'history']);
+    Route::get('/adminprofile', [UserController::class, 'viewprofile']);
     
 });
 

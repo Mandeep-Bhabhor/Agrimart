@@ -212,6 +212,12 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
+              <a href="/admindash" class="btn-custom nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="/audit" class="btn-custom nav-link"> View Audit</a>
+            </li>
+            <li class="nav-item">
               <a href="/adminproducts" class="btn-custom nav-link">Products</a>
             </li>
             <li class="nav-item">
@@ -233,8 +239,8 @@
               <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="/profile">Profile</a></li>
-              <li><a class="dropdown-item" href="/viewplacedorder">Orders</a></li>
+              <li><a class="dropdown-item" href="/adminprofile">Profile</a></li>
+             
               <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
             </ul>
             @else
@@ -274,37 +280,7 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script>
-    document.getElementById('viewAuditBtn').addEventListener('click', function () {
-      var t_data = document.querySelector('#table_data tbody');
-      var req = new XMLHttpRequest();
 
-      req.open("GET", "/sh", true);
-      req.send();
-
-      req.onreadystatechange = function () {
-        if (req.readyState == 4 && req.status == 200) {
-          var obj = JSON.parse(req.responseText);
-
-          t_data.innerHTML = "";
-
-          obj.data.forEach(function (item) {
-            t_data.innerHTML += `
-              <tr>
-                  <td>${item.id}</td>
-                  <td>${item.user_id}</td>
-                  <td>${item.usertype}</td>
-                  <td>${item.logindate}</td>
-                  <td>${item.logintime}</td>
-                  <td>${item.logouttime}</td>
-              </tr>`;
-          });
-
-          document.getElementById('auditContainer').style.display = 'block';
-        }
-      };
-    });
-  </script>
 
 </body>
 </html>

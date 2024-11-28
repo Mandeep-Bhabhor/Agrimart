@@ -13,35 +13,69 @@
                     <!-- Username Field -->
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" />
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="username" 
+                            placeholder="Enter username" 
+                            name="username" 
+                            value="{{ old('username') }}" 
+                        />
                         <span class="text-danger">@error('username'){{ $message }}@enderror</span>
                     </div>
 
                     <!-- Email Field -->
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" />
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            id="email" 
+                            placeholder="Enter email" 
+                            name="email" 
+                            value="{{ old('email') }}" 
+                        />
                         <span class="text-danger">@error('email'){{ $message }}@enderror</span>
                     </div>
 
                     <!-- Password Field -->
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" />
+                        <input 
+                            type="password" 
+                            class="form-control" 
+                            id="password" 
+                            placeholder="Enter password" 
+                            name="password" 
+                        />
                         <span class="text-danger">@error('password'){{ $message }}@enderror</span>
                     </div>
 
                     <!-- Phone Number Field -->
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="phone" placeholder="Enter phone number" name="phone" />
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="phone" 
+                            placeholder="Enter phone number" 
+                            name="phone" 
+                            value="{{ old('phone') }}" 
+                        />
                         <span class="text-danger">@error('phone'){{ $message }}@enderror</span>
                     </div>
 
                     <!-- Address Field -->
                     <div class="mb-4">
                         <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" placeholder="Enter address" name="address" />
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="address" 
+                            placeholder="Enter address" 
+                            name="address" 
+                            value="{{ old('address') }}" 
+                        />
                         <span class="text-danger">@error('address'){{ $message }}@enderror</span>
                     </div>
 
