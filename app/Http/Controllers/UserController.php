@@ -186,9 +186,10 @@ class UserController extends Controller
           
           // Update logout time in the Audit table
           DB::table('Audits')
-             
-              ->whereNull('logouttime') // Update the last log entry
-              ->update(['logouttime' => now()->toTimeString()]);
+          ->where('user_id', Auth::id()) // Check for the authenticated user's ID
+          ->whereNull('logouttime')      // Update only the last log entry with null logout time
+          ->update(['logouttime' => now()->toTimeString()]);
+      
   
           // Log out the user and clear session
           Auth::logout(); // Laravel's built-in logout method
