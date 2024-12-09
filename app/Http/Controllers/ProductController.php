@@ -124,12 +124,19 @@ class ProductController extends Controller
   
      public function delete(int $id)
       {
-          $products = Product::findOrFail($id);
-          $products->delete();
-  
-          //return redirect()->back()->with('status',value: 'product deleted');
-          return redirect()->back()->with('status', 'Product deleted');
-  
+        $product = Product::findOrFail($id);
+
+       // Delete related orders where the order status is pending and the product name matches
+                   Order::where('product_name', $product->name)
+                    ->where('order_status', 'pending')
+                    ->delete();
+
+    
+        // Delete the product itself
+        $product->delete();
+    
+        // Redirect back with a success message
+        return redirect()->back()->with('status', 'Product and related pending orders deleted');
         }
 
         public function order(Request $request)
@@ -237,7 +244,7 @@ class ProductController extends Controller
         
         
 
-        public function placeOrder(Request $request)
+        public function placeOrder()
         {
             if (!Auth::check()) {
                 return redirect('/login')->with('error', 'Please log in to place an order.');
@@ -257,35 +264,47 @@ class ProductController extends Controller
         
             $totalPrice = 0;
             $missingProducts = [];
+            $insufficientStockProducts = [];
         
             // Collect product names from orders for batch retrieval
             $productNames = $orders->pluck('product_name')->unique();
             $products = Product::whereIn('name', $productNames)->get()->keyBy('name');
         
             foreach ($orders as $order) {
-                $totalPrice += $order->product_price;
-                $order->order_status = 'placed';
-        
-                // Update stock if the product exists
+                // Check if the product exists and has enough stock
                 if ($products->has($order->product_name)) {
                     $product = $products->get($order->product_name);
+        
+                    // Check if stock is sufficient
+                    if ($product->stock < $order->product_stock) {
+                        $insufficientStockProducts[] = $order->product_name;
+                        continue; // Skip this order
+                    }
+        
+                    // Deduct stock and save the product
                     $product->stock -= $order->product_stock;
-        
-                  
                     $product->save();
-                } else {
-                    // Add missing product name to the list
-                    $missingProducts[] = $order->product_name;
-                }
         
-                $order->save();
-
-                History::create([
-                    'order_id' => $order->id, // Use $order->id (single order instance)
-                ]);
+                    // Update order status
+                    $order->order_status = 'placed';
+                    $order->save();
+        
+                    // Create history record
+                    History::create([
+                        'order_id' => $order->id,
+                    ]);
+        
+                    // Add to total price
+                    $totalPrice += $order->product_price;
+                } 
             }
         
-            // Generate a message if there are missing products
+            // Generate error messages if necessary
+            if (!empty($insufficientStockProducts)) {
+                $insufficientStockNames = implode(', ', $insufficientStockProducts);
+                return redirect('/vieworder')->with('error', "The following products do not have enough stock: {$insufficientStockNames}");
+            }
+        
             if (!empty($missingProducts)) {
                 $missingProductNames = implode(', ', $missingProducts);
                 return redirect('/vieworder')->with('error', "The following products could not be updated due to missing records: {$missingProductNames}");

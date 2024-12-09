@@ -57,6 +57,9 @@ Route::put('{id}/adminproducts', [ProductController::class, 'update']);
 Route::get('{id}/deleteproducts', [ProductController::class, 'delete']);
 
 });
+
+//product public routes
+
 Route::get('/products', [ProductController::class, 'index']);
 Route::post('/order', [ProductController::class, 'order']);
 Route::get('/viewplacedorder', [ProductController::class, 'viewplacedorder']);

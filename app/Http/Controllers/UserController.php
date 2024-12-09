@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\hash;
+use App\Models\Order;
 
 class UserController extends Controller
 {
@@ -127,44 +128,46 @@ class UserController extends Controller
 
 
 
-     public function editprofile(Request $request,int $id)
+     public function editprofile(Request $request, int $id)
      {
-        if(Auth::check()){
-            $user = Auth::user();
-          
-           
-
+         if (Auth::check()) {
+             $user = Auth::user();
+     
              // Validate inputs
-      $request->validate([
-        'name' => 'required|min:3|max:255|string',
-       
-       'email' => 'required|email',
-
-       'password' => 'required|min:3|max:255|string',
-    ]);
-
-    $user = User::findorfail($id);
-          
-     if ($request->has('name') && $request->input('name') != $user->name) {
-        $user->name = $request->input('name');
-    }
-    
-    if ($request->has('email') && $request->input('email') != $user->email) {
-        $user->email = $request->input('email');
-    }
-
-    // Save the updated user
-   
-
-   $user->save();
-   return redirect('/profile')->with('status', 'your profile is successfully updated.');
-}
-         
-         else{
-            return redirect('/login');
-                 } 
+             $request->validate([
+                 'name' => 'required|min:3|max:255|string',
+                 'email' => 'required|email',
+                 'password' => 'required|min:3|max:255|string',
+             ]);
+     
+             // Find the user by ID
+             $user = User::findOrFail($id);
+     
+             // Check if the name or email needs to be updated
+             if ($request->has('name') && $request->input('name') != $user->name) {
+                 $oldName = $user->name; // Store the old username
+                 $user->name = $request->input('name');
+             }
+     
+             if ($request->has('email') && $request->input('email') != $user->email) {
+                 $user->email = $request->input('email');
+             }
+     
+             // Save the updated user
+             $user->save();
+     
+             // Update the username in the orders table if it has changed
+             if (isset($oldName)) {
+                 Order::where('user_name', $oldName)
+                     ->update(['user_name' => $user->name]);
+             }
+     
+             return redirect('/profile')->with('status', 'Your profile has been successfully updated.');
+         } else {
+             return redirect('/login');
+         }
      }
- 
+     
      public function deleteprofile(int $id)
      {
         $user = User::findOrFail($id);
@@ -265,7 +268,8 @@ class UserController extends Controller
   
   function audit() {
       $audit = DB::table('audits')->get(); 
-      return view('admin.audit', ['audit' => $audit]);
+      $user = User::all();
+      return view('admin.audit', ['audit' => $audit],compact('user'));
   }
   
 

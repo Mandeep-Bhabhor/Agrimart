@@ -21,14 +21,30 @@
                     <!-- Product Price -->
                     <div class="mb-3">
                         <label for="price" class="form-label">Product Price</label>
-                        <input type="number" class="form-control" value="{{ old('price') }}" id="price" placeholder="Enter price" name="price" />
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            value="{{ old('price') }}" 
+                            id="price" 
+                            placeholder="Enter price" 
+                            name="price" 
+                            oninput="this.value = Math.abs(this.value)"
+                        />
                         <span style="color: red">@error('price'){{ $message }}@enderror</span>
                     </div>
 
                     <!-- Product Stock -->
                     <div class="mb-3">
                         <label for="stock" class="form-label">Product Stock</label>
-                        <input type="number" class="form-control" value="{{ old('stock') }}" id="stock" placeholder="Enter quantity" name="stock" />
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            value="{{ old('stock') }}" 
+                            id="stock" 
+                            placeholder="Enter quantity" 
+                            name="stock" 
+                            oninput="this.value = Math.abs(this.value)"
+                        />
                         <span style="color: red">@error('stock'){{ $message }}@enderror</span>
                     </div>
 
