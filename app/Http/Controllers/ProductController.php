@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProductController extends Controller
 {
@@ -315,52 +316,37 @@ class ProductController extends Controller
         
         
         public function downloadBill($user_name)
-{
-    // Fetch all orders for the given user
-    $orders = Order::where('user_name', $user_name)->get();
-
-    // Check if the user has any orders
-    if ($orders->isEmpty()) {
-        return redirect()->back()->with('error', 'No orders found for this user.');
-    }
-
-    // Initialize the bill content
-    $billContent = "Order Bill for $user_name\n";
-    $billContent .= "-----------------------------------\n";
-
-    // Initialize total sum
-    $totalSum = 0;
-
-    // Loop through all orders and append order details to the bill
-    foreach ($orders as $order) {
-       // $billContent .= "Order ID: {$order->id}\n";
-        $billContent .= "Product Name: {$order->product_name}\n";
-        $billContent .= "Quantity: {$order->product_stock}\n";
-        $billContent .= "Product total price: {$order->product_price}\n";
-      //  $totalPrice = $order->product_stock * $order->product_price;
-       // $billContent .= "Total Price: $totalPrice\n";
-        $billContent .= "-----------------------------------\n";
-
-        // Add to the total sum
-        $totalSum += $order->product_price;
-    }
-
-    // Add the total sum at the end
-    $billContent .= "Total Amount for All Orders: $totalSum\n";
-    $billContent .= "-----------------------------------\n";
-    $billContent .= "Thank you for your orders!";
-
-    // Set the file name and headers for downloading the text file
-    $fileName = "{$user_name}_OrderBill.txt";
-    $headers = [
-        'Content-Type' => 'text/plain',
-        'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-    ];
-
-    // Return the text file as a response, allowing the user to download it
-    return Response::make($billContent, 200, $headers);
-}
-          
+        {
+            // Fetch all orders for the given user
+            $orders = Order::where('user_name', $user_name)->get();
+        
+            // Check if the user has any orders
+            if ($orders->isEmpty()) {
+                return redirect()->back()->with('error', 'No orders found for this user.');
+            }
+        
+            // Initialize total sum
+            $totalSum = 0;
+        
+            // Loop through all orders and calculate totals
+            foreach ($orders as $order) {
+                $totalSum += $order->product_price;
+            }
+        
+            // Prepare data for the PDF view
+            $data = [
+                'user_name' => $user_name,
+                'orders'    => $orders,
+                'totalSum'  => $totalSum,
+            ];
+        
+            // Generate the PDF using a Blade view
+            $pdf = Pdf::loadView('bill', $data);
+        
+            // Return the PDF for download
+            $fileName = "{$user_name}_OrderBill.pdf";
+            return $pdf->download($fileName);
+        }    
 
 
 public function history()

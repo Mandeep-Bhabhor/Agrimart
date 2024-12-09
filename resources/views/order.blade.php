@@ -16,15 +16,15 @@
     @endif
 
     <div class="container mt-5">
-        <h2 class="mb-4 text-primary text-center"><i class="bi bi-cart-check-fill me-2"></i>Your Cart</h2>
+        <h2 class="mb-4 text-success-dark text-center"><i class="bi bi-cart-check-fill me-2"></i>Your Cart</h2>
       <!-- Place Order Button -->
                       <!-- Place Order Button -->
         <!-- Place Order Button -->
-<a 
-href="{{ url('/viewplacedorder') }}" 
-class="btn btn-primary w-100 mt-3 place-order-btn" class="btn btn-success w-100 mt-3 place-order-btn">
-<i class="bi bi-check-circle-fill me-2"></i>View Your Placed Orders
-</a>
+            <a 
+            href="{{ url('/viewplacedorder') }}" 
+            class="btn btn-success w-100 mt-3 place-order-btn" class="btn btn-success w-100 mt-3 place-order-btn">
+            <i class="bi bi-check-circle-fill me-2"></i>View Your Placed Orders
+            </a>
 
 
         <!-- Check if there are any orders -->
@@ -104,20 +104,12 @@ class="btn btn-primary w-100 mt-3 place-order-btn" class="btn btn-success w-100 
                     <!-- Place Order Button -->
                     <form action="{{ url($order->id.$order->user_name.$order->product_name.'/placeOrder') }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-primary w-100">
+                        <button type="submit" class="btn btn-outline-success w-100">
                             <i class="bi bi-check-circle-fill me-2"></i>Place Order
                         </button>
                     </form>
                 </div>
-                <div class="col-6">
-                    <!-- Download Bill Button -->
-                    <form action="{{ url('downloadBill/'. Auth::user()->name) }}" method="GET">
-                        @csrf
-                        <button type="submit" class="btn btn-info w-100">
-                            <i class="bi bi-file-earmark-arrow-down-fill me-2"></i>Download Bill
-                        </button>
-                    </form>
-                </div>
+             
             </div>
         @endif
     </div>

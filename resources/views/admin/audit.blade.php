@@ -1,5 +1,5 @@
 <!-- resources/views/audit_logs.blade.php -->
-
+<x-adminlayout>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,3 +50,4 @@
      
 </body>
 </html>
+</x-adminlayout>

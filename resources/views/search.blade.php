@@ -17,7 +17,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ $product->name }}</h5>
                                 <p class="text-success"><strong>Price:</strong> ${{ $product->price }}</p>
-                                <a href="/products/{{ $product->id }}" class="btn btn-primary btn-sm">View Product</a>
+                                {{-- <a href="/products/{{ $product->id }}" class="btn btn-primary btn-sm">View Product</a> --}}
                             </div>
                         </div>
                     </div>

@@ -13,7 +13,7 @@
                 <table class="table table-striped table-bordered table-hover">
                     <thead class="table-light">
                         <tr>
-                            <th>Order ID</th>
+                          
                             <th>Product Name</th>
                             <th>Quantity</th>
                             <th>Total Price</th>
@@ -23,7 +23,7 @@
                     <tbody>
                         @foreach($order as $orders)
                             <tr>
-                                <td>{{ $orders->id }}</td>
+                               
                                 <td>{{ $orders->product_name }}</td>
                                 <td>{{ $orders->product_stock }}</td>
                                 <td>INR {{ number_format($orders->product_price, 2) }}</td>
@@ -34,7 +34,18 @@
                 </table>
             </div>
         @endif
+
+        <div class="col-6">
+            <!-- Download Bill Button -->
+            <form action="{{ url('downloadBill/'. Auth::user()->name) }}" method="GET">
+                @csrf
+                <button type="submit" class="btn btn-info w-100">
+                    <i class="bi bi-file-earmark-arrow-down-fill me-2"></i>Download Bill
+                </button>
+            </form>
+        </div>
     </div>
+
 
     <!-- Custom CSS to improve appearance -->
     <style>

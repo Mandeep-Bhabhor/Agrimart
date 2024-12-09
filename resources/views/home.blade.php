@@ -38,7 +38,7 @@
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     <input type="hidden" name="product_name" value="{{ $product->name }}">
                                     <input type="hidden" name="product_price" value="{{ $product->price }}">
-                                    <button class="btn btn-primary btn-sm">
+                                    <button class="btn btn-success btn-sm">
                                         <i class="bi bi-cart-plus me-1"></i>Add to Orders
                                     </button>
                                 </form>

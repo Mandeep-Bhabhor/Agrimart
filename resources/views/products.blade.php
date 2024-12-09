@@ -1,7 +1,7 @@
 <x-layout>
     <div class="container mt-5">
         <div class="card shadow">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-success text-white">
                 <h2 class="mb-0 text-center">Product List</h2>
             </div>
             <div class="card-body">
@@ -14,7 +14,7 @@
                         <table class="table table-bordered table-hover align-middle">
                             <thead class="table-dark text-center">
                                 <tr>
-                                    <th>ID</th>
+                                   
                                     <th>Name</th>
                                     <th>Price</th>
                                     <th>Stock</th>
@@ -26,7 +26,7 @@
                             <tbody>
                                 @foreach($products as $product)
                                     <tr>
-                                        <td class="text-center">{{ $product->id }}</td>
+                                            
                                         <td>{{ $product->name }}</td>
                                         <td class="text-center">INR {{ number_format($product->price, 2) }}</td>
                                         <td class="text-center">{{ $product->stock }}</td>
