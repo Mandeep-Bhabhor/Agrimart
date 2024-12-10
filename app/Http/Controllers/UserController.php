@@ -137,7 +137,8 @@ class UserController extends Controller
              $request->validate([
                  'name' => 'required|min:3|max:255|string',
                  'email' => 'required|email',
-                 'password' => 'required|min:3|max:255|string',
+                //   'email'    => 'required|email|unique:users,email',
+                 'password' => 'required|string|min:8',
              ]);
      
              // Find the user by ID
@@ -152,7 +153,9 @@ class UserController extends Controller
              if ($request->has('email') && $request->input('email') != $user->email) {
                  $user->email = $request->input('email');
              }
-     
+             if ($request->has('password') && $request->input('password') != $user->password) {
+                $user->password = $request->input('password');
+            }
              // Save the updated user
              $user->save();
      
