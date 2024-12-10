@@ -45,6 +45,8 @@ class ProductController extends Controller
         ]);
         
         // Initialize the image path
+        $path = null;
+        $filename = null;
         if($request->has('image')){
 
             $file = $request->file('image');
@@ -60,7 +62,7 @@ class ProductController extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'stock' => $request->stock,
-            'image' => $path.$filename, // Save the image path
+            'image' => $path ? $path . $filename : null, // Save the image path or null
             'categories_id' => $request->categories_id,
         ]);
 
